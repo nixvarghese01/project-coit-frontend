@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:  
+  - service-backend1-lb.yaml
+  - fast-good-for-db.yaml
+  - backend1-pvc.yaml
+  - backend1-ingress.yaml
+  - backend1-deployment.yaml
+  - backend1-configmap.yaml
+
+replicas:
+- name: backend1
+  count: 1

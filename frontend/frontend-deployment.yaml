@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment                                          # 1
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 1                                       # 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate                                   # 3
+    rollingUpdate:
+      maxUnavailable: 1                                   # 4
+      maxSurge: 1                                         # 5
+  template:
+    metadata:
+      labels:
+        app: frontend                                  # 6
+        app.kubernetes.io/name: frontend
+    spec:
+      serviceAccountName: frontend-service-account
+      containers:
+        - image: nixvarghese03/frontend:v1
+          imagePullPolicy: IfNotPresent                         # 7
+          name: frontend
+          livenessProbe:
+            exec:
+              command:
+              - ls
+              - /
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 250M
+            limits: 
+              cpu: 150m
+              memory: 450M
+          ports:
+            - containerPort: 80
+      
+          env:
+            - name: JAVA_APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-map
+                  key: JAVA_URL
+            - name: SMS_API
+              valueFrom:
+                configMapKeyRef:
+                  name: value-from-props
+                  key: sms_provider_api

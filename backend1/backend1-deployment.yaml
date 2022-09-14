@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend1
+  labels:
+    app: backend1
+spec:
+  selector:
+    matchLabels:
+      app: backend1
+  replicas: 3
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1 
+  template:
+    metadata:
+      labels:
+        app: backend1
+    spec:
+      containers:
+      - image: nixvarghese03/backend01:v0
+        imagePullPolicy: IfNotPresent
+        name: backend1   
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+          - mountPath: /mnt
+            name: backend1-config-volume
+          - mountPath: /var/lib/mysql
+            name: myappdata
+      volumes:
+        - name: backend1-config-volume 
+          configMap:
+            name: backend1-configmap 
+        - name: myappdata
+          persistentVolumeClaim:
+            claimName: backend1-pvc-static-files
+
+
