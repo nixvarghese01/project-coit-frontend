@@ -10,7 +10,7 @@ spec:
   tls:
   - hosts:
     - "frontend.cloudbasket.net"
-    secretName: "frontend.cloudbasket.net"
+    secretName: "frontend.cloudbasket"
   rules:
   - host: "frontend.cloudbasket.net"
     http:
