@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment                                          # 1
+metadata:
+  name: frontend
+spec:
+  template:
+    spec:
+      containers:
+        - image: nixvarghese03/frontend:v1
+          imagePullPolicy: IfNotPresent                         # 7
+          name: frontend
+          
