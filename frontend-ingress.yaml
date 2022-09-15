@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - "frontend.35.203.169.95.sslip.io"
-    secretName: "frontend.35.203.169.95.sslip.io"
+    - "frontend.cloudbasket.net"
+    secretName: "frontend.cloudbasket.net"
   rules:
-  - host: "frontend.35.203.169.95.sslip.io"
+  - host: "frontend.cloudbasket.net"
     http:
       paths: 
       - path: /
